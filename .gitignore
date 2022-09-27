@@ -9,3 +9,6 @@ out/
 
 # Dotenv file
 .env
+
+.idea
+eth-apps-frontend/node_modules
