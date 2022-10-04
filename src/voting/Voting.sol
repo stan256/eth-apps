@@ -58,6 +58,7 @@ contract Voting {
         require(votes[msg.sender][ballotId] == false, "Voter can vote only once");
         require(block.timestamp < ballots[ballotId].end, "Can only vote until the end of voting");
         ballots[ballotId].choices[choiceId].votes++;
+        votes[msg.sender][ballotId] = true;
     }
 
     function results(uint ballotId) view external returns (Choice[] memory) {
