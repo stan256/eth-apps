@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import EthAppsCatalog from "./EthAppsCatalog";
 import {Route, Routes} from "react-router-dom";
 import VotingApp from "./eth-apps/voting-app";
