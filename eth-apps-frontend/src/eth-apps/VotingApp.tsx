@@ -1,5 +1,5 @@
 import React, {FC} from "react"
-import {useForm, Controller, useFieldArray} from "react-hook-form"
+import {Controller, useFieldArray, useForm} from "react-hook-form"
 import Box from "@mui/material/Box";
 import {
     Card,
@@ -8,7 +8,8 @@ import {
     Fab,
     FormControlLabel,
     FormGroup,
-    FormLabel, Modal,
+    FormLabel,
+    Modal,
     Radio,
     RadioGroup,
     TextField
@@ -20,6 +21,8 @@ import {format} from "date-fns";
 import Grid from "@mui/material/Unstable_Grid2";
 import {defaultFabStyle, defaultModalStyle} from "../utils/mui-default-component-settings";
 import {Add} from "@mui/icons-material";
+import { useOutletContext } from "react-router-dom";
+import {LayoutState} from "../layout/Layout";
 
 interface Ballot {
     id: number
@@ -34,17 +37,10 @@ interface Choice {
     votes: number
 }
 
-type FormValues = {
-    ballots: Ballot[]
-}
-
 const VotingApp: FC = (props) => {
-
+    const setOutletContext : React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
     const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false);
-    const handleOpen = () => setCreateVotingModalOpen(true);
-    const handleClose = () => setCreateVotingModalOpen(false);
 
-    // not store, updated on creation of a new ballot
     const [ballots, setBallots] = React.useState<Ballot[]>([
         {
             id: 0,
@@ -69,26 +65,28 @@ const VotingApp: FC = (props) => {
             end: new Date().valueOf(),
         }
     ])
-    // voting creation form
     const {
-        formState: {errors, isValid, isDirty},
+        formState: {errors, isValid},
         handleSubmit,
         reset,
         control,
         getValues
-    } = useForm()
-    const {fields, append, update, prepend, remove, swap, move, insert} = useFieldArray({
+    } = useForm({mode: 'onChange'})
+    const {fields, append, update, prepend, remove} = useFieldArray({
         control,
         name: "choices"
     });
 
     const submitVote = (data: any) => {
-
-        console.log(data)
+        // call here
     }
+
     const createVoting = (data: any) => {
-        console.log(getValues())
+        setOutletContext({ backdrop: true })
+        // call here
+        setOutletContext({ backdrop: false })
         reset()
+        setCreateVotingModalOpen(false)
     }
 
     return <>
@@ -120,17 +118,13 @@ const VotingApp: FC = (props) => {
         </Grid>
 
         {/* create ballot */}
-        <Fab color="primary" aria-label="add voting" onClick={handleOpen} sx={defaultFabStyle}><Add/></Fab>
+        <Fab color="primary" aria-label="add voting" onClick={_ => setCreateVotingModalOpen(true)} sx={defaultFabStyle}><Add/></Fab>
 
-        <Modal open={createVotingModalOpen} onClose={handleClose}>
+        <Modal open={createVotingModalOpen} onClose={_ => setCreateVotingModalOpen(false)}>
             <Box sx={defaultModalStyle}>
                 <Typography variant='h4' component='h4'>Create new voting:</Typography>
                 <form onSubmit={handleSubmit(createVoting)}>
-                    <FormGroup sx={{
-                        '& .MuiFormControl-root': {
-                            my: 2
-                        }
-                    }}>
+                    <FormGroup sx={{'& > *': {my: 1}}}>
                         <Controller name='voting-name'
                                     control={control}
                                     rules={{required: true, minLength: 1}}
@@ -158,22 +152,19 @@ const VotingApp: FC = (props) => {
                         {
                             fields.map((choice, index) => (
                                 <Box key={choice.id}>
-
-                                    <Controller name={`choice-${index}`}
+                                    <Controller name={`choices.${index}`}
+                                                control={control}
                                                 rules={{required: true, minLength: 1}}
                                                 render={({field}) => <TextField label={`Choice #${index + 1}`}
-                                                                                onChange={f => (index)}
+                                                                                onChange={field.onChange}
                                                                                 variant="outlined"/>}/>
+
                                 </Box>
                             ))
-
                         }
                         <Button onClick={() => {
-                            append({ choice: ""})
-                        }}
-                                type='submit'
-                                variant="contained">Add new voting choice</Button>
-
+                            append('')
+                        }} variant="contained">Add new voting choice</Button>
                         <Button onClick={createVoting}
                                 disabled={!isValid}
                                 type='submit'
