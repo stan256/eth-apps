@@ -25,7 +25,7 @@ contract VotingTest is Test {
 
         assertEq(id, 0);
         assertEq(name, "Test ballot");
-        assertGt(end, block.timestamp + 59);
+        assertGt(end, 59);
 
         assertChoiceEq(ballotChoices[0], 0, "choice0", 0);
         assertChoiceEq(ballotChoices[1], 1, "choice1", 0);

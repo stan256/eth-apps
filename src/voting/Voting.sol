@@ -46,7 +46,7 @@ contract Voting {
     ) public onlyAdmin() {
         ballots[nextBallotId].id = nextBallotId;
         ballots[nextBallotId].name = name;
-        ballots[nextBallotId].end = block.timestamp + offset;
+        ballots[nextBallotId].end = offset;
         for (uint i = 0; i < choices.length; i++) {
             ballots[nextBallotId].choices.push(Choice(i, choices[i], 0));
         }

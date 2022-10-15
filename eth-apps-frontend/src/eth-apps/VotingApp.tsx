@@ -21,8 +21,9 @@ import {format} from "date-fns";
 import Grid from "@mui/material/Unstable_Grid2";
 import {defaultFabStyle, defaultModalStyle} from "../utils/mui-default-component-settings";
 import {Add} from "@mui/icons-material";
-import { useOutletContext } from "react-router-dom";
+import {useOutletContext} from "react-router-dom";
 import {LayoutState} from "../layout/Layout";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Ballot {
     id: number
@@ -38,7 +39,7 @@ interface Choice {
 }
 
 const VotingApp: FC = (props) => {
-    const setOutletContext : React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
+    const setOutletContext: React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
     const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false);
 
     const [ballots, setBallots] = React.useState<Ballot[]>([
@@ -72,7 +73,7 @@ const VotingApp: FC = (props) => {
         control,
         getValues
     } = useForm({mode: 'onChange'})
-    const {fields, append, update, prepend, remove} = useFieldArray({
+    const {fields, append, remove} = useFieldArray({
         control,
         name: "choices"
     });
@@ -82,9 +83,9 @@ const VotingApp: FC = (props) => {
     }
 
     const createVoting = (data: any) => {
-        setOutletContext({ backdrop: true })
+        setOutletContext({backdrop: true})
         // call here
-        setOutletContext({ backdrop: false })
+        setOutletContext({backdrop: false})
         reset()
         setCreateVotingModalOpen(false)
     }
@@ -124,7 +125,7 @@ const VotingApp: FC = (props) => {
             <Box sx={defaultModalStyle}>
                 <Typography variant='h4' component='h4'>Create new voting:</Typography>
                 <form onSubmit={handleSubmit(createVoting)}>
-                    <FormGroup sx={{'& > *': {my: 1}}}>
+                    <FormGroup sx={{'& > *:not(:last-child)': {mb: '10px'}}}>
                         <Controller name='voting-name'
                                     control={control}
                                     rules={{required: true, minLength: 1}}
@@ -148,22 +149,24 @@ const VotingApp: FC = (props) => {
                                     }}/>
 
                         {/* choices... todo */}
-                        <Typography variant='h5' component='h5'>Add possible choices:</Typography>
+                        <Typography variant='h5' component='h5' sx={{mt: '30px'}}>Add possible choices:</Typography>
                         {
                             fields.map((choice, index) => (
-                                <Box key={choice.id}>
+                                <Box key={choice.id} sx={{display: 'flex', alignItems: 'center'}}>
                                     <Controller name={`choices.${index}`}
                                                 control={control}
                                                 rules={{required: true, minLength: 1}}
                                                 render={({field}) => <TextField label={`Choice #${index + 1}`}
                                                                                 onChange={field.onChange}
+                                                                                sx={{width: '75%'}}
                                                                                 variant="outlined"/>}/>
-
+                                    <Button onClick={() => remove(index)}><DeleteIcon/></Button>
                                 </Box>
                             ))
                         }
                         <Button onClick={() => {
                             append('')
+                            console.log(getValues())
                         }} variant="contained">Add new voting choice</Button>
                         <Button onClick={createVoting}
                                 disabled={!isValid}
