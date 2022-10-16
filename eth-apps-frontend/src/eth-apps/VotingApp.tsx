@@ -24,6 +24,7 @@ import {Add} from "@mui/icons-material";
 import {useOutletContext} from "react-router-dom";
 import {LayoutState} from "../layout/Layout";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {ethersCreateVoting, getAllVotings} from "../service/ethereum-service";
 
 interface Ballot {
     id: number
@@ -80,11 +81,16 @@ const VotingApp: FC = (props) => {
 
     const submitVote = (data: any) => {
         // call here
+        getAllVotings()
     }
 
-    const createVoting = (data: any) => {
+    const createVoting = () => {
         setOutletContext({backdrop: true})
         // call here
+        const values = getValues();
+        console.log(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
+        ethersCreateVoting(values.name, values.choices, values.end.getSeconds())
+
         setOutletContext({backdrop: false})
         reset()
         setCreateVotingModalOpen(false)
@@ -101,7 +107,7 @@ const VotingApp: FC = (props) => {
                             <Typography>Voting finish date: {format(ballot.end, 'MM/dd/yyyy kk:mm:ss')}</Typography>
                         </CardContent>
                         <CardActions sx={{flexDirection: "column"}}>
-                            <FormLabel id={`voting-choices-${i}`}>Choices</FormLabel>
+                            <FormLabel id={`choices.${i}`}>Choices</FormLabel>
                             <RadioGroup>
                                 {ballot.choices.map((choice, j) => {
                                     return <FormControlLabel key={j}
@@ -126,14 +132,14 @@ const VotingApp: FC = (props) => {
                 <Typography variant='h4' component='h4'>Create new voting:</Typography>
                 <form onSubmit={handleSubmit(createVoting)}>
                     <FormGroup sx={{'& > *:not(:last-child)': {mb: '10px'}}}>
-                        <Controller name='voting-name'
+                        <Controller name='name'
                                     control={control}
                                     rules={{required: true, minLength: 1}}
                                     render={({field}) => <TextField id="outlined-basic"
                                                                     label="Voting name"
                                                                     onChange={field.onChange}
                                                                     variant="outlined"/>}/>
-                        <Controller name='voting-end'
+                        <Controller name='end'
                                     control={control}
                                     rules={{required: true}}
                                     defaultValue={new Date()}
@@ -166,7 +172,6 @@ const VotingApp: FC = (props) => {
                         }
                         <Button onClick={() => {
                             append('')
-                            console.log(getValues())
                         }} variant="contained">Add new voting choice</Button>
                         <Button onClick={createVoting}
                                 disabled={!isValid}

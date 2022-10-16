@@ -18,39 +18,35 @@ contract VotingTest is Test {
         testUsers = utils.createUsers(testUsersSize);
     }
 
-    function testSimpleBallotCreation() public {
-        createTestBallot(3, 60);
-        (uint256 id, string memory name, uint256 end) = votingContract.ballots(0);
-        Voting.Choice[] memory ballotChoices = votingContract.getChoices(0);
+    function testCreateVoting() public {
+        string[] memory choices = new string[](3);
+        for (uint i = 0; i < 3; i++) {
+            choices[i] = string.concat("choice", Strings.toString(i));
+        }
 
-        assertEq(id, 0);
-        assertEq(name, "Test ballot");
-        assertGt(end, 59);
+        vm.expectRevert("Name can't be empty");
+        console.log(block.timestamp);
+        votingContract.createBallot("", choices, 100);
 
-        assertChoiceEq(ballotChoices[0], 0, "choice0", 0);
-        assertChoiceEq(ballotChoices[1], 1, "choice1", 0);
-        assertChoiceEq(ballotChoices[2], 2, "choice2", 0);
+        string[] memory emptyChoices = new string[](0);
+        vm.expectRevert("There should be at least 2 choices");
+        votingContract.createBallot("Test ballot", emptyChoices, 100);
+
+        vm.expectRevert("Can't create a voting with the date in past");
+        votingContract.createBallot("Test ballot", choices, 0);
+
+        votingContract.createBallot("Test ballot", choices, 0);
+        votingContract.ballots(0);
     }
 
     function testVotingOnlyAvailableUntilEnd() public {
-        createTestBallot(3, 0);
+        createTestBallot(3, 60);
         address voter = addVoters(1)[0];
 
         vm.prank(voter);
+        vm.warp(100);
         vm.expectRevert("Can only vote until the end of voting");
         votingContract.vote(0, 0);
-    }
-
-    function addVoters(uint votersNumber) public returns (address[] memory) {
-        require(votersNumber <= testUsersSize);
-
-        address[] memory voters = new address[](votersNumber);
-        for (uint i = 0; i < votersNumber; i++) {
-            voters[i] = testUsers[i];
-        }
-
-        votingContract.addVoters(voters);
-        return voters;
     }
 
     function testOnlyVotersCanVoteOnceUntilEnd() public {
@@ -85,6 +81,18 @@ contract VotingTest is Test {
         assertEq(ballotChoices[0].votes, 1);
         assertEq(ballotChoices[1].votes, 1);
         assertEq(ballotChoices[2].votes, 0);
+    }
+
+    function addVoters(uint votersNumber) public returns (address[] memory) {
+        require(votersNumber <= testUsersSize);
+
+        address[] memory voters = new address[](votersNumber);
+        for (uint i = 0; i < votersNumber; i++) {
+            voters[i] = testUsers[i];
+        }
+
+        votingContract.addVoters(voters);
+        return voters;
     }
 
     function createTestBallot(uint8 choicesAmount, uint end) private {

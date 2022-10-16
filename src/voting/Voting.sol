@@ -23,7 +23,7 @@ contract Voting {
     mapping(uint => Ballot) public ballots;
     mapping(address => mapping(uint => bool)) public votes;
 
-    uint nextBallotId;
+    uint public nextBallotId;
 
     constructor() {
         admin = msg.sender;
@@ -39,14 +39,28 @@ contract Voting {
         return ballots[i].choices;
     }
 
+    function getBallots(uint from, uint offset) public view returns(Ballot[] memory) {
+        uint ballotsAmount = nextBallotId - from > offset ? offset : nextBallotId - from;
+        Ballot[] _ballots = new Ballot[](ballotsAmount);
+        for (uint i = from; i < from + ballotsAmount; i++) {
+            _ballots[i] = ballots[i];
+        }
+        return _ballots;
+    }
+
     function createBallot(
         string memory name,
         string[] memory choices,
         uint offset
     ) public onlyAdmin() {
+        require(bytes(name).length != 0, "Name can't be empty");
+        require(choices.length >= 2, "There should be at least 2 choices");
+        require(block.timestamp < offset, "Can't create a voting with the date in past");
+
         ballots[nextBallotId].id = nextBallotId;
         ballots[nextBallotId].name = name;
         ballots[nextBallotId].end = offset;
+
         for (uint i = 0; i < choices.length; i++) {
             ballots[nextBallotId].choices.push(Choice(i, choices[i], 0));
         }
