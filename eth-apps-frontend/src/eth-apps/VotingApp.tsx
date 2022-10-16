@@ -1,6 +1,6 @@
 import React, {FC} from "react"
 import {Controller, useFieldArray, useForm} from "react-hook-form"
-import Box from "@mui/material/Box";
+import Box from "@mui/material/Box"
 import {
     Card,
     CardActions,
@@ -13,60 +13,30 @@ import {
     Radio,
     RadioGroup,
     TextField
-} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import {DateTimePicker} from "@mui/x-date-pickers";
-import {format} from "date-fns";
-import Grid from "@mui/material/Unstable_Grid2";
-import {defaultFabStyle, defaultModalStyle} from "../utils/mui-default-component-settings";
-import {Add} from "@mui/icons-material";
-import {useOutletContext} from "react-router-dom";
-import {LayoutState} from "../layout/Layout";
-import DeleteIcon from '@mui/icons-material/Delete';
-import {ethersCreateVoting, getAllVotings} from "../service/ethereum-service";
-
-interface Ballot {
-    id: number
-    name: string
-    choices: Choice[]
-    end: number
-}
-
-interface Choice {
-    id: number
-    name: string
-    votes: number
-}
+} from "@mui/material"
+import Typography from "@mui/material/Typography"
+import Button from "@mui/material/Button"
+import {DateTimePicker} from "@mui/x-date-pickers"
+import {format} from "date-fns"
+import Grid from "@mui/material/Unstable_Grid2"
+import {defaultFabStyle, defaultModalStyle} from "../utils/mui-default-component-settings"
+import {Add} from "@mui/icons-material"
+import {useOutletContext} from "react-router-dom"
+import {LayoutState} from "../layout/Layout"
+import DeleteIcon from '@mui/icons-material/Delete'
+import {ethersCreateVoting, getAllVotings} from "../service/ethereum-service"
+import {Ballot} from "../model/voting/entity";
 
 const VotingApp: FC = (props) => {
     const setOutletContext: React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
-    const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false);
+    const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false)
 
-    const [ballots, setBallots] = React.useState<Ballot[]>([
-        {
-            id: 0,
-            name: "Best voting ever",
-            choices: [
-                {
-                    id: 0,
-                    name: "Choice 1",
-                    votes: 0
-                },
-                {
-                    id: 1,
-                    name: "Choice 2",
-                    votes: 0
-                },
-                {
-                    id: 2,
-                    name: "Choice 3",
-                    votes: 0
-                }
-            ],
-            end: new Date().valueOf(),
-        }
-    ])
+    const [ballots, setBallots] = React.useState<Ballot[]>([])
+    getAllVotings().then(b => {
+        console.log(b)
+        setBallots(b)
+    }, console.error)
+
     const {
         formState: {errors, isValid},
         handleSubmit,
@@ -77,20 +47,16 @@ const VotingApp: FC = (props) => {
     const {fields, append, remove} = useFieldArray({
         control,
         name: "choices"
-    });
+    })
 
     const submitVote = (data: any) => {
         // call here
-        getAllVotings()
     }
 
     const createVoting = () => {
         setOutletContext({backdrop: true})
-        // call here
-        const values = getValues();
-        console.log(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
-        ethersCreateVoting(values.name, values.choices, values.end.getSeconds())
-
+        const values = getValues()
+        ethersCreateVoting(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
         setOutletContext({backdrop: false})
         reset()
         setCreateVotingModalOpen(false)

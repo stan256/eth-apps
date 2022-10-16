@@ -34,9 +34,6 @@ contract VotingTest is Test {
 
         vm.expectRevert("Can't create a voting with the date in past");
         votingContract.createBallot("Test ballot", choices, 0);
-
-        votingContract.createBallot("Test ballot", choices, 0);
-        votingContract.ballots(0);
     }
 
     function testVotingOnlyAvailableUntilEnd() public {
