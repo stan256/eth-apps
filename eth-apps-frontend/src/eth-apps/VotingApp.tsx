@@ -1,4 +1,4 @@
-import React, {FC} from "react"
+import React, {FC, useEffect} from "react"
 import {Controller, useFieldArray, useForm} from "react-hook-form"
 import Box from "@mui/material/Box"
 import {
@@ -32,13 +32,16 @@ const VotingApp: FC = (props) => {
     const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false)
 
     const [ballots, setBallots] = React.useState<Ballot[]>([])
-    getAllVotings().then(b => {
-        console.log(b)
-        setBallots(b)
-    }, console.error)
+
+    useEffect(() => {
+        getAllVotings().then(b => {
+            setBallots(b)
+        }, console.error)
+    }, []);
+
 
     const {
-        formState: {errors, isValid},
+        formState: {isValid},
         handleSubmit,
         reset,
         control,
@@ -50,7 +53,10 @@ const VotingApp: FC = (props) => {
     })
 
     const submitVote = (data: any) => {
-        // call here
+        // getAllVotings().then(b => {
+        //     console.log(b)
+        //     setBallots(b)
+        // }, console.error)
     }
 
     const createVoting = () => {
@@ -136,9 +142,7 @@ const VotingApp: FC = (props) => {
                                 </Box>
                             ))
                         }
-                        <Button onClick={() => {
-                            append('')
-                        }} variant="contained">Add new voting choice</Button>
+                        <Button onClick={() => {append('')}} variant="contained">Add new voting choice</Button>
                         <Button onClick={createVoting}
                                 disabled={!isValid}
                                 type='submit'

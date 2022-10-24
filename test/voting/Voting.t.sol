@@ -25,7 +25,6 @@ contract VotingTest is Test {
         }
 
         vm.expectRevert("Name can't be empty");
-        console.log(block.timestamp);
         votingContract.createBallot("", choices, 100);
 
         string[] memory emptyChoices = new string[](0);

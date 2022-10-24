@@ -1,6 +1,7 @@
 # Compiler files
 cache/
 out/
+build/
 
 # Ignores development broadcast logs
 !/broadcast
@@ -8,7 +9,8 @@ out/
 /broadcast/**/dry-run/
 
 # Dotenv file
-.env
+.env.*
+.yarn-integrity
 
 .idea
 eth-apps-frontend/node_modules

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 import Navbar from "../components/Navbar";
-import {Backdrop, CircularProgress} from "@mui/material";
+import {Backdrop, CircularProgress, Container} from "@mui/material";
 
 export interface LayoutState {
     backdrop: boolean
@@ -9,7 +9,7 @@ export interface LayoutState {
 
 
 function Layout() {
-    const [outletContext, setOutletContext]: [LayoutState, ((value: (((prevState: LayoutState) => LayoutState) | LayoutState)) => void)] = React.useState<LayoutState>({
+    const [outletContext, setOutletContext] = React.useState<LayoutState>({
         backdrop: false
     });
 
@@ -17,15 +17,14 @@ function Layout() {
         <>
             <Navbar/>
 
-            <Outlet context={setOutletContext}/>
+            <Container maxWidth='lg'>
+                <Outlet context={setOutletContext}/>
+            </Container>
 
             <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={outletContext.backdrop}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
 
-            <footer>
-                bla 2022 bla
-            </footer>
         </>
     );
 }
