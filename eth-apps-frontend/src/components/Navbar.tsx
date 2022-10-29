@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {Link as RouterLink} from 'react-router-dom';
 import {Link} from '@mui/material';
-import {useAccount, useBalance, useConnectModal, useDisconnect} from "@web3modal/react";
+import {useAccount, useConnectModal, useDisconnect} from "@web3modal/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Navbar() {
-    const {address, isConnected} = useAccount()
+    const {account: {address, isConnected}} = useAccount()
     const {open} = useConnectModal()
     const disconnect = useDisconnect()
 

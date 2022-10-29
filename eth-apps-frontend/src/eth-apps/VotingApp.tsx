@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from "react"
+import React, {FC} from "react"
 import {Controller, useFieldArray, useForm} from "react-hook-form"
 import Box from "@mui/material/Box"
 import {
@@ -24,45 +24,32 @@ import {Add} from "@mui/icons-material"
 import {useOutletContext} from "react-router-dom"
 import {LayoutState} from "../layout/Layout"
 import DeleteIcon from '@mui/icons-material/Delete'
-import {ethersCreateVoting, getAllVotings} from "../service/ethereum-service"
 import {Ballot} from "../model/voting/entity";
+import {useAccount} from "@web3modal/react";
+import {ethers} from "ethers";
+import VotingABI from "../ABI/Voting.json"
 
 const VotingApp: FC = (props) => {
     const setOutletContext: React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
     const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false)
-
     const [ballots, setBallots] = React.useState<Ballot[]>([])
+    const {account: {isConnected, connector}} = useAccount()
 
-    useEffect(() => {
-        getAllVotings().then(b => {
-            setBallots(b)
-        }, console.error)
-    }, []);
-
-
-    const {
-        formState: {isValid},
-        handleSubmit,
-        reset,
-        control,
-        getValues
-    } = useForm({mode: 'onChange'})
+    // form
+    const {formState: {isValid}, handleSubmit, reset, control, getValues} = useForm({mode: 'onChange'})
     const {fields, append, remove} = useFieldArray({
         control,
         name: "choices"
     })
 
-    const submitVote = (data: any) => {
-        // getAllVotings().then(b => {
-        //     console.log(b)
-        //     setBallots(b)
-        // }, console.error)
-    }
-
-    const createVoting = () => {
+    const createVoting = async () => {
         setOutletContext({backdrop: true})
-        const values = getValues()
-        ethersCreateVoting(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
+        let values = getValues();
+
+        const contract = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADDRESS_VOTING_APP!, VotingABI.abi, await connector!.getSigner())
+        console.log(contract)
+        await contract.createBallot(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
+
         setOutletContext({backdrop: false})
         reset()
         setCreateVotingModalOpen(false)
@@ -89,7 +76,7 @@ const VotingApp: FC = (props) => {
                                                              label={choice.name}/>
                                 })}
                             </RadioGroup>
-                            <Button onClick={submitVote} variant='outlined'>Submit my vote</Button>
+                            <Button onClick={console.log} variant='outlined'>Submit my vote</Button>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -142,10 +129,13 @@ const VotingApp: FC = (props) => {
                                 </Box>
                             ))
                         }
-                        <Button onClick={() => {append('')}} variant="contained">Add new voting choice</Button>
-                        <Button onClick={createVoting}
-                                disabled={!isValid}
+                        <Button onClick={() => {
+                            append('')
+                        }} variant="contained">Add new voting choice</Button>
+
+                        <Button disabled={!isValid || !isConnected}
                                 type='submit'
+                                onClick={createVoting}
                                 variant="contained">Create voting</Button>
                     </FormGroup>
                 </form>

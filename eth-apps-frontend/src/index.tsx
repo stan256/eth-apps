@@ -7,7 +7,7 @@ import {BrowserRouter} from "react-router-dom";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import {ConfigOptions} from '@web3modal/react'
+import {ConfigOptions} from '@web3modal/core'
 import {Web3Modal} from '@web3modal/react'
 import {chains, providers} from '@web3modal/ethereum'
 
@@ -32,7 +32,7 @@ const config: ConfigOptions = {
     accentColor: 'blue',
     ethereum: {
         appName: 'web3Modal',
-        chains: [chains.mainnet, chains.goerli],
+        chains: [chains.mainnet, chains.goerli, chains.hardhat, chains.localhost],
         providers: [providers.walletConnectProvider({ projectId: process.env.REACT_APP_WALLET_ID! })]
     }
 }
