@@ -1,4 +1,4 @@
-import React, {FC} from "react"
+import React, {FC, useEffect} from "react"
 import {Controller, useFieldArray, useForm} from "react-hook-form"
 import Box from "@mui/material/Box"
 import {
@@ -24,35 +24,62 @@ import {Add} from "@mui/icons-material"
 import {useOutletContext} from "react-router-dom"
 import {LayoutState} from "../layout/Layout"
 import DeleteIcon from '@mui/icons-material/Delete'
-import {Ballot} from "../model/voting/entity";
-import {useAccount} from "@web3modal/react";
-import {ethers} from "ethers";
+import {Ballot} from "../model/voting/entity"
 import VotingABI from "../ABI/Voting.json"
+import {ethers} from "ethers"
+import {Pagination} from "../model/common-models";
 
-const VotingApp: FC = (props) => {
+declare let window: any
+const votingContractAddress = process.env.REACT_APP_CONTRACT_ADDRESS_VOTING_APP!
+
+function convertBallots(response: any): Ballot[] {
+    return response === undefined ? [] : response.map((r: any) => {
+        return {
+            id: r.id.toNumber(),
+            name: r.name,
+            choices: r.choices.map((c: any) => {
+                return {
+                    id: c.id.toNumber(),
+                    name: c.name,
+                    votes: c.votes.toNumber(),
+                }
+            }),
+            end: r.end.toNumber(),
+        }
+    })
+}
+
+const VotingApp: FC = () => {
     const setOutletContext: React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
     const [createVotingModalOpen, setCreateVotingModalOpen] = React.useState(false)
     const [ballots, setBallots] = React.useState<Ballot[]>([])
-    const {account: {isConnected, connector}} = useAccount()
+    const [ballotsPagination, setBallotsPagination] = React.useState<Pagination>({ from: 0, to: 500 })
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const contract = new ethers.Contract(votingContractAddress, VotingABI.abi, provider.getSigner())
+
+    useEffect(() => fetchBallots(), [])
+
+    function fetchBallots() {
+        setOutletContext({backdrop: true})
+        contract.getBallots(ballotsPagination.from, ballotsPagination.to)
+            .then((bs: any) => setBallots(convertBallots(bs)), console.error)
+            .finally((_: any) => setOutletContext({backdrop: false}))
+    }
 
     // form
     const {formState: {isValid}, handleSubmit, reset, control, getValues} = useForm({mode: 'onChange'})
-    const {fields, append, remove} = useFieldArray({
-        control,
-        name: "choices"
-    })
+    const {fields, append, remove} = useFieldArray({control, name: "choices"})
 
     const createVoting = async () => {
         setOutletContext({backdrop: true})
-        let values = getValues();
+        setCreateVotingModalOpen(false)
 
-        const contract = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADDRESS_VOTING_APP!, VotingABI.abi, await connector!.getSigner())
-        console.log(contract)
-        await contract.createBallot(values.name, values.choices, Math.round(values.end.valueOf() / 1000))
+        let values = getValues()
+        console.log(values.name, values.choices, Math.round(values.end.valueOf()))
+        contract.createBallot(values.name, values.choices, Math.round(values.end.valueOf()))
 
         setOutletContext({backdrop: false})
         reset()
-        setCreateVotingModalOpen(false)
     }
 
     return <>
@@ -65,19 +92,22 @@ const VotingApp: FC = (props) => {
                             <Typography>Voting name: {ballot.name}</Typography>
                             <Typography>Voting finish date: {format(ballot.end, 'MM/dd/yyyy kk:mm:ss')}</Typography>
                         </CardContent>
-                        <CardActions sx={{flexDirection: "column"}}>
-                            <FormLabel id={`choices.${i}`}>Choices</FormLabel>
-                            <RadioGroup>
-                                {ballot.choices.map((choice, j) => {
-                                    return <FormControlLabel key={j}
-                                                             value={choice.id}
-                                                             control={<Radio/>}
-                                                             name={`voting${i}`}
-                                                             label={choice.name}/>
-                                })}
-                            </RadioGroup>
-                            <Button onClick={console.log} variant='outlined'>Submit my vote</Button>
-                        </CardActions>
+                        {
+                            ballot.end > new Date().valueOf() ?
+                                <CardActions sx={{flexDirection: "column"}}>
+                                    <FormLabel id={`choices.${i}`}>Choices</FormLabel>
+                                    <RadioGroup>
+                                        {ballot.choices.map((choice, j) => {
+                                            return <FormControlLabel key={j}
+                                                                     value={choice.id}
+                                                                     control={<Radio/>}
+                                                                     name={`voting${i}`}
+                                                                     label={choice.name}/>
+                                        })}
+                                    </RadioGroup>
+                                    <Button onClick={console.log} variant='outlined'>Submit my vote</Button>
+                                </CardActions> : undefined
+                        }
                     </Card>
                 </Grid>
             })}
@@ -133,9 +163,8 @@ const VotingApp: FC = (props) => {
                             append('')
                         }} variant="contained">Add new voting choice</Button>
 
-                        <Button disabled={!isValid || !isConnected}
+                        <Button disabled={!isValid}
                                 type='submit'
-                                onClick={createVoting}
                                 variant="contained">Create voting</Button>
                     </FormGroup>
                 </form>

@@ -37,7 +37,7 @@ export default function Navbar() {
                     {/* Log in button */}
                     {
                         !isConnected &&
-                        <IconButton color="inherit" onClick={open}>
+                        <IconButton color="inherit" onClick={_ => open()}>
                             <AccountCircleIcon/>
                         </IconButton>
                     }

@@ -1079,10 +1079,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@coinbase/wallet-sdk@3.5.3":
-  version "3.5.3"
-  resolved "https://registry.npmjs.org/@coinbase/wallet-sdk/-/wallet-sdk-3.5.3.tgz"
-  integrity sha512-kaGMk9KyiSLPm1+BvCQSc99ku9gn0j+M1+2Beii+4gx/lRVhutlzmn6l+5zTB/n3xri25iTr+SxjMZLlMfW8Hg==
+"@coinbase/wallet-sdk@3.5.4":
+  version "3.5.4"
+  resolved "https://registry.npmjs.org/@coinbase/wallet-sdk/-/wallet-sdk-3.5.4.tgz#957aa74521a4afa61ae99e1e2b948a6e017fcc87"
+  integrity sha512-+5s05dmB6YUPUnV5vThP96GVG1O4GgS3qYvjYJhe56ds8YFz+keU3/docFBLf8FQOCIO5j7IZtZmVGvz7G+kRw==
   dependencies:
     "@metamask/safe-event-emitter" "2.0.0"
     "@solana/web3.js" "1.52.0"
@@ -2080,10 +2080,10 @@
     "@motionone/utils" "^10.14.0"
     tslib "^2.3.1"
 
-"@motionone/dom@^10.14.2":
-  version "10.14.2"
-  resolved "https://registry.npmjs.org/@motionone/dom/-/dom-10.14.2.tgz"
-  integrity sha512-GbGtvTSelXfT4TeQUQ3Y31PllAu0Uvghqr68FSPAJsh1hjbuYPaiPJWpP6+t/t50cHtvUbl4m2SgnGKJ0NCgWA==
+"@motionone/dom@^10.14.3":
+  version "10.14.3"
+  resolved "https://registry.npmjs.org/@motionone/dom/-/dom-10.14.3.tgz#5b67d91debb6bdacf85664879d6125af06ceb7c8"
+  integrity sha512-tese0zSBsWwxCcs9qGNyynhnQ3/n43F6XI588AUKBIfE9D5ZelzQXOzr/T0+ErsVppXJtyGHviYEnv7KHc9x7Q==
   dependencies:
     "@motionone/animation" "^10.14.0"
     "@motionone/generators" "^10.14.0"
@@ -2109,12 +2109,12 @@
     "@motionone/utils" "^10.14.0"
     tslib "^2.3.1"
 
-"@motionone/svelte@^10.14.2":
-  version "10.14.2"
-  resolved "https://registry.npmjs.org/@motionone/svelte/-/svelte-10.14.2.tgz"
-  integrity sha512-WKgER0eH7b8q0/ODElHIbzMM3uIINdcdCw87jf7xqs4daidsy6e1ckh2XJF2Z8zyWyUEtO4VHvGumRX7EjrxFA==
+"@motionone/svelte@^10.14.3":
+  version "10.14.3"
+  resolved "https://registry.npmjs.org/@motionone/svelte/-/svelte-10.14.3.tgz#4e3011629344e6ddcf783a33fb2eea4258f15fef"
+  integrity sha512-fHyyyGJRkHsfE2IAg+6YU0BiMT/Jz5OAMpJvBZs3oGfwsgdqSms4YtLW22Ecs87e59hPZ26SqWCHad6enRfD9A==
   dependencies:
-    "@motionone/dom" "^10.14.2"
+    "@motionone/dom" "^10.14.3"
     tslib "^2.3.1"
 
 "@motionone/types@^10.14.0":
@@ -2131,12 +2131,12 @@
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@motionone/vue@^10.14.2":
-  version "10.14.2"
-  resolved "https://registry.npmjs.org/@motionone/vue/-/vue-10.14.2.tgz"
-  integrity sha512-nxC/j4WhOsXxVDUdWHJDUIvHSb97eu0Kn1HNzGp08Fm9WTFkKy0HtJtTqTdkGVks2jB/XBh/FO3wU2OzyDFZNw==
+"@motionone/vue@^10.14.3":
+  version "10.14.3"
+  resolved "https://registry.npmjs.org/@motionone/vue/-/vue-10.14.3.tgz#20ca718c898bcc19a0df771615e14e53ed65d451"
+  integrity sha512-FZ/vefJMDthnzlVQbL2I54WEvDyx720KClxWqmHZZ+wKic+i9XhNCU1qijGcvA3/1sFFp8u9fOqmejEWXSsHmw==
   dependencies:
-    "@motionone/dom" "^10.14.2"
+    "@motionone/dom" "^10.14.3"
     tslib "^2.3.1"
 
 "@mui/base@5.0.0-alpha.102":
@@ -2526,9 +2526,9 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^5.14.1":
+"@testing-library/jest-dom@^5.16.5":
   version "5.16.5"
-  resolved "https://registry.npmjs.org/@testing-library/jest-dom/-/jest-dom-5.16.5.tgz"
+  resolved "https://registry.npmjs.org/@testing-library/jest-dom/-/jest-dom-5.16.5.tgz#3912846af19a29b2dbf32a6ae9c31ef52580074e"
   integrity sha512-N5ixQ2qKpi5OLYfwQmUb/5mSV9LneAcaUfp32pn4yCnpb8r/Yz0pXFPck21dIicKmi+ta5WRAknkZCfA8refMA==
   dependencies:
     "@adobe/css-tools" "^4.0.1"
@@ -2541,21 +2541,19 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^13.0.0":
+"@testing-library/react@^13.3.0":
   version "13.4.0"
-  resolved "https://registry.npmjs.org/@testing-library/react/-/react-13.4.0.tgz"
+  resolved "https://registry.npmjs.org/@testing-library/react/-/react-13.4.0.tgz#6a31e3bf5951615593ad984e96b9e5e2d9380966"
   integrity sha512-sXOGON+WNTh3MLE9rve97ftaZukN3oNf2KjDy7YTx6hcTO2uuLHuCGynMDhFwGw/jYf4OJ2Qk0i4i79qMNNkyw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^13.2.1":
-  version "13.5.0"
-  resolved "https://registry.npmjs.org/@testing-library/user-event/-/user-event-13.5.0.tgz"
-  integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
+"@testing-library/user-event@^14.4.3":
+  version "14.4.3"
+  resolved "https://registry.npmjs.org/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
+  integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -3028,10 +3026,10 @@
     "@typescript-eslint/types" "5.40.1"
     eslint-visitor-keys "^3.3.0"
 
-"@wagmi/core@0.6.4":
-  version "0.6.4"
-  resolved "https://registry.npmjs.org/@wagmi/core/-/core-0.6.4.tgz#ff2059a8a1ad2a9a9e6b4324a70af8e8aeb3f3c1"
-  integrity sha512-ihb/U5B69FO4YtPgAuCgTonniCVysLjr8mzNNOWoLjwUOhNEpCdntA8S9Qii4Tj/XcwIKOApOMw9jgc52L5k3A==
+"@wagmi/core@0.6.9":
+  version "0.6.9"
+  resolved "https://registry.npmjs.org/@wagmi/core/-/core-0.6.9.tgz#fec3fa19802d0df477a9822c347bee1251a01c75"
+  integrity sha512-hlc64xJiDjY2w+JG6P7Ejby2bW5Jad73CB6wJuKejAQPAAKfb/dJaxFpaSxvdWrhn8O5aoBQcBvA7zt7G5/fHw==
   dependencies:
     abitype "^0.1.7"
     eventemitter3 "^4.0.7"
@@ -3250,39 +3248,39 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.0"
 
-"@web3modal/core@2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.npmjs.org/@web3modal/core/-/core-2.0.0-alpha.8.tgz#670a141b2ed7a531ab2cf1d66676c958fdcce9b6"
-  integrity sha512-phAJzpV2HArHGd6PrvC6Z1iC5qLFuDmKGp3CbQRhW30Qvvrt/v/FKnJIP8+2UsVH7I1d4pPIpr4FB/jWm3gZ/Q==
+"@web3modal/core@2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.npmjs.org/@web3modal/core/-/core-2.0.0-beta.2.tgz#26e400a7b0c775e1a9d63aa690ced2bffb211097"
+  integrity sha512-Qa1m/MHXCONNNb4JMlRGWWpTxZvWjpB605l/3VHJLMSMWqWApbEyWOGhRWhMV+QwpN/MAyw3H4z/JS/AxrZctw==
   dependencies:
     buffer "6.0.3"
-    valtio "1.7.4"
+    valtio "1.7.5"
 
-"@web3modal/ethereum@^2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.npmjs.org/@web3modal/ethereum/-/ethereum-2.0.0-alpha.8.tgz#466d67b82f110f07faa83aa7a7516f88486d671f"
-  integrity sha512-sBIhHzjYfBJLpy35iyH7c9q7HDxilja3GJ87isN+dnXPzCfwwaRhGSH2riGb3HBaetwRrr8EjO9jd+fWkwuOOA==
+"@web3modal/ethereum@2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.npmjs.org/@web3modal/ethereum/-/ethereum-2.0.0-beta.2.tgz#1f3f38861fbb695644bdd04ac560128ebf5f60f8"
+  integrity sha512-eFR8EgHdvacrvaV/nza6cdsygCtXMhD+LTb+W+LfF9R8QlUvAZqXN5dGS3wgPtLwr6VtcWAOXSeSOj7OK1FXFA==
   dependencies:
-    "@coinbase/wallet-sdk" "3.5.3"
-    "@wagmi/core" "0.6.4"
+    "@coinbase/wallet-sdk" "3.5.4"
+    "@wagmi/core" "0.6.9"
     "@walletconnect/ethereum-provider" "1.8.0"
 
-"@web3modal/react@^2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.npmjs.org/@web3modal/react/-/react-2.0.0-alpha.8.tgz#390fa5e3171e5d3b892fdca132539b8bb0b13bf9"
-  integrity sha512-H31tQnOB4u7LUD3ew1kctR4R6QCXDOA47NnmE43XjCYGyQyt0JgDvNgwqacH37vB7xGQyde5ppJ2owVSR1Syzw==
+"@web3modal/react@2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.npmjs.org/@web3modal/react/-/react-2.0.0-beta.2.tgz#6a940e32d1ba7ef769016c2fae59f0493336973c"
+  integrity sha512-oeAU3LXMjyTQu8WoAdf8lXxvzt42apAfSZcF5vCgQsqgCy4rQx+Af3J1k/FjMWdW1Gw+RRs5tLeZdzfjEHyZGA==
   dependencies:
-    "@web3modal/core" "2.0.0-alpha.8"
-    "@web3modal/ui" "2.0.0-alpha.8"
+    "@web3modal/core" "2.0.0-beta.2"
+    "@web3modal/ui" "2.0.0-beta.2"
 
-"@web3modal/ui@2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.npmjs.org/@web3modal/ui/-/ui-2.0.0-alpha.8.tgz#07312c25ae36edff66146bd277ac6cf5bd850309"
-  integrity sha512-w3YCCWK5ZibanjtpOYD+rGKFZNeQFCIfPzCfLww+tBV8kiyyAee4CxfdKL9GAUy8idEjoEy+OeoX6ZlP/wjYMw==
+"@web3modal/ui@2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.npmjs.org/@web3modal/ui/-/ui-2.0.0-beta.2.tgz#cd0e96ad947fa321b6b01943cb449ad5e5bd334d"
+  integrity sha512-PAnA7ML0yTai96jbCLSjZgSSLW7CtWwq//CmYMYX2bC1mF53BvJrl/i7F1+FmycCVZBaitsV2+jA5BQbmrQGMw==
   dependencies:
-    "@web3modal/core" "2.0.0-alpha.8"
-    lit "2.4.0"
-    motion "10.14.2"
+    "@web3modal/core" "2.0.0-beta.2"
+    lit "2.4.1"
+    motion "10.14.3"
     qrcode "1.5.1"
 
 "@webassemblyjs/ast@1.11.1":
@@ -8271,10 +8269,10 @@ lit-html@^2.2.0, lit-html@^2.4.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/lit/-/lit-2.4.0.tgz"
-  integrity sha512-fdgzxEtLrZFQU/BqTtxFQCLwlZd9bdat+ltzSFjvWkZrs7eBmeX0L5MHUMb3kYIkuS8Xlfnii/iI5klirF8/Xg==
+lit@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npmjs.org/lit/-/lit-2.4.1.tgz#21251ac14eb1ec8ca7cd15c9ac3564359809f7b5"
+  integrity sha512-qohSgLiyN1cFnJG26dIiY03S4F49857A0AHQfnS0zYtnUVnD2MFvx+UT52rtXsIuNFQrnUupX+zyGSATlk1f/A==
   dependencies:
     "@lit/reactive-element" "^1.4.0"
     lit-element "^3.2.0"
@@ -8602,17 +8600,17 @@ moment@^2.29.4:
   resolved "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
-motion@10.14.2:
-  version "10.14.2"
-  resolved "https://registry.npmjs.org/motion/-/motion-10.14.2.tgz"
-  integrity sha512-zZp9PL4/O7nSgQBWBDdyvGm25Ef/hQUUVAOnyzxn2IvAhp496M+RB9p1ce4nN7cYLizox2Bq77/dTIjFGkJmAw==
+motion@10.14.3:
+  version "10.14.3"
+  resolved "https://registry.npmjs.org/motion/-/motion-10.14.3.tgz#3150cd0c646f405e999aba7c96fe1e65f6ce184b"
+  integrity sha512-xBbgYho8nPiR2OZOrfJTbJpiiQl0F2PZF6H5ItAeIPJEfA/x0ZwxpFC/gbsKfUv3CFUVAoxCRkTDCJjiZ48dxw==
   dependencies:
     "@motionone/animation" "^10.14.0"
-    "@motionone/dom" "^10.14.2"
-    "@motionone/svelte" "^10.14.2"
+    "@motionone/dom" "^10.14.3"
+    "@motionone/svelte" "^10.14.3"
     "@motionone/types" "^10.14.0"
     "@motionone/utils" "^10.14.0"
-    "@motionone/vue" "^10.14.2"
+    "@motionone/vue" "^10.14.3"
 
 ms@2.0.0:
   version "2.0.0"
@@ -11635,10 +11633,10 @@ v8-to-istanbul@^8.1.0:
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
 
-valtio@1.7.4:
-  version "1.7.4"
-  resolved "https://registry.npmjs.org/valtio/-/valtio-1.7.4.tgz#07d9b1d4b4f49120474c4b861f0a1425ae3a2bb5"
-  integrity sha512-x8N7I7hfIlRHQyRe8cx3QJsEYdzMHb12HYUGIDjPruEwLrMpegvS8iZDk4PZ/i8HgeiOPF7Qr78Ke3HA1CGu9A==
+valtio@1.7.5:
+  version "1.7.5"
+  resolved "https://registry.npmjs.org/valtio/-/valtio-1.7.5.tgz#02a3ee207b4c7552294bbccb68d5f73c9f60302f"
+  integrity sha512-YGgYA1fkjDWIJuI2Z178GWxocd7f+AGfwe7vSL9+WKWfQuzWBEMqIIZ2UnEuy58DpEOYFSQTLfxQGOFIatEpmQ==
   dependencies:
     proxy-compare "2.3.0"
     use-sync-external-store "1.2.0"
