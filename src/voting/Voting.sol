@@ -35,11 +35,23 @@ contract Voting {
         }
     }
 
-    function getChoices(uint i) public view returns (Choice[] memory) {
-        return ballots[i].choices;
+    function fetchAlreadyVotedBallots(uint[] memory ballotIds) external view returns (bool[] memory) {
+        bool[] memory voted = new bool[](ballotIds.length);
+
+        for (uint i = 0; i < ballotIds.length; i++) {
+            if (votes[msg.sender][ballotIds[i]]) {
+                voted[i] = true;
+            }
+        }
+
+        return voted;
     }
 
-    function getBallots(uint from, uint offset) public view returns(Ballot[] memory) {
+    function getChoices(uint ballotId) public view returns (Choice[] memory) {
+        return ballots[ballotId].choices;
+    }
+
+    function getBallots(uint from, uint offset) public view returns (Ballot[] memory) {
         uint ballotsAmount = nextBallotId - from > offset ? offset : nextBallotId - from;
         Ballot[] memory _ballots = new Ballot[](ballotsAmount);
         for (uint i = from; i < from + ballotsAmount; i++) {
@@ -68,7 +80,8 @@ contract Voting {
     }
 
     function vote(uint ballotId, uint choiceId) external {
-        require(voters[msg.sender] == true, "Only defined voters can vote");
+        // to simplify examples this requirement is aborted
+        // require(voters[msg.sender] == true, "Only defined voters can vote");
         require(votes[msg.sender][ballotId] == false, "Voter can vote only once");
         require(block.timestamp < ballots[ballotId].end, "Can only vote until the end of voting");
         ballots[ballotId].choices[choiceId].votes++;

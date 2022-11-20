@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {Link as RouterLink} from 'react-router-dom';
-import {Link} from '@mui/material';
+import {Container, Link} from '@mui/material';
 import {useAccount, useConnectModal, useDisconnect} from "@web3modal/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -19,7 +19,8 @@ export default function Navbar() {
     return (
         <Box>
             <AppBar component="nav" position="static">
-                <Toolbar>
+                <Container maxWidth='xl'>
+                    <Toolbar>
                     <IconButton color="inherit">
                         <MenuIcon/>
                     </IconButton>
@@ -50,6 +51,7 @@ export default function Navbar() {
                         </IconButton>
                     }
                 </Toolbar>
+                </Container>
             </AppBar>
         </Box>
     );
