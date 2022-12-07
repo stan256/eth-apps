@@ -17,7 +17,7 @@ function Layout() {
         <>
             <Navbar/>
 
-            <Container maxWidth='lg'>
+            <Container maxWidth='lg' sx={{mt: 2}}>
                 <Outlet context={setOutletContext}/>
             </Container>
 

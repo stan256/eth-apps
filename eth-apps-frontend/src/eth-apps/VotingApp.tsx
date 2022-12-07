@@ -23,7 +23,7 @@ import {Add} from "@mui/icons-material"
 import {useOutletContext} from "react-router-dom"
 import {LayoutState} from "../layout/Layout"
 import DeleteIcon from '@mui/icons-material/Delete'
-import {Ballot, Choice} from "../model/voting/entity"
+import {Ballot, Choice} from "../model/votings"
 import VotingABI from "../ABI/Voting.json"
 import {ethers} from "ethers"
 import {Pagination} from "../model/common-models"
@@ -64,13 +64,11 @@ const VotingApp: FC = () => {
     const contract = new ethers.Contract(votingContractAddress, VotingABI.abi, provider.getSigner())
 
     // form
-    const {formState: {isValid, errors}, handleSubmit, reset, control, getValues} = useForm({mode: 'onChange'})
+    const {formState: {isValid}, handleSubmit, reset, control, getValues} = useForm({mode: 'onChange'})
     const {fields, append, remove} = useFieldArray({control, name: "choices"})
 
-    useEffect(() => fetchBallots(), [])
-    useEffect(() => {
-        updateAlreadyVotedBallots()
-    }, [ballots])
+    useEffect(fetchBallots, [])
+    useEffect(updateAlreadyVotedBallots, [ballots])
 
     function updateAlreadyVotedBallots() {
         return contract.fetchAlreadyVotedBallots(ballots.map(b => b.id))
@@ -195,7 +193,6 @@ const VotingApp: FC = () => {
                                         />
                                     }}/>
 
-                        {/* choices... todo */}
                         <Typography variant='h5' component='h5' sx={{mt: '30px'}}>Add
                             possible choices:</Typography>
                         {

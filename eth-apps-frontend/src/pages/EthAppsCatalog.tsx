@@ -12,6 +12,9 @@ const EthAppsCatalog: FC = () => {
             <ListItem component={Link} to={'/voting-app'}>
                 <ListItemText primary="Voting App" primaryTypographyProps={{variant: 'h4', component: 'h4'}}/>
             </ListItem>
+            <ListItem component={Link} to={'/dao'}>
+                <ListItemText primary="DAO" primaryTypographyProps={{variant: 'h4', component: 'h4'}}/>
+            </ListItem>
         </List>
 
     </Box>
