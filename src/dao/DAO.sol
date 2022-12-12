@@ -17,7 +17,7 @@ contract DAO {
 
     mapping(address => bool) public investors;
     mapping(address => uint) public shares;
-    mapping(address => mapping(uint => bool)) votes;
+    mapping(address => mapping(uint => bool)) public votes;
     mapping(uint => Proposal) public proposals;
     uint public totalShares;
     uint public availableFunds;

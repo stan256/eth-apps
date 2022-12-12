@@ -20,8 +20,7 @@ import {Add} from "@mui/icons-material"
 import {Proposal} from "../model/dao"
 import {LayoutState} from "../layout/Layout"
 import {useOutletContext} from "react-router-dom"
-import {formatToSimpleDateTime, roundNextHour} from "../utils/time"
-import {DateTimePicker} from "@mui/x-date-pickers"
+import {formatToSimpleDateTime} from "../utils/time"
 
 declare let window: any
 
@@ -43,7 +42,6 @@ const DAOApp: FC = () => {
         provider.getSigner().getAddress().then(callback)
     }
 
-
     useEffect(() => {
         addressCallback(address => contract.investors(address).then(a => setIsInvestor(a)))
         contract.investingEndDate().then(d => setDaoFundraiseEnd(new Date(d.toNumber())))
@@ -53,23 +51,28 @@ const DAOApp: FC = () => {
     }, [])
 
     useEffect(() => {
-        for (let i = 0; i < nextProposalId; i++) {
-            contract.proposals(i).then(p => {
-                console.log(p)
+        addressCallback(address => {
 
-                setProposals(prevState => [...prevState, {
-                    id: /*p.id.toNumber()*/ 0,
-                    name: p.name,
-                    amount: p.amount,
-                    recipient: p.recipient,
-                    votes: /*p.votes.toNumber()*/ 0,
-                    // 10k - duration of voting on Smart Contract
-                    end: /*(p.end.toNumber() - 10000) * 1000 + 10000*/ 0,
-                    executed: p.executed,
-                }])
-            })
-        }
-    }, [nextProposalId])
+            for (let i = 0; i < nextProposalId; i++) {
+                Promise.all([contract.proposals(i), contract.votes(address, i)])
+                    .then(values => {
+                        console.log()
+
+                        setProposals(prevState => [...prevState, {
+                            id: /*values[0].id.toNumber()*/ 0,
+                            name: values[0].name,
+                            amount: values[0].amount,
+                            recipient: values[0].recipient,
+                            votes: Number(ethers.utils.formatEther(values[0].votes)) / Number(ethers.utils.formatEther(daoTotalFunds!)),
+                            // 10k - duration of voting on Smart Contract
+                            end: (values[0].end.toNumber() - 10000) * 1000 + 10000,
+                            executed: values[0].executed,
+                            alreadyVoted: values[1]
+                        }])
+                    })
+            }
+        })
+    }, [nextProposalId, daoTotalFunds])
 
     function invest() {
         contract.invest({value: ethers.utils.parseEther(String(investAmount))}).then(x => {
@@ -79,19 +82,7 @@ const DAOApp: FC = () => {
     }
 
     function vote(proposalId: number) {
-        contract.vote(proposalId).then(x => {
-            console.log()
-        }, console.error)
-        // todo ui window - voted successfully
-    }
-
-    function isAlreadyVoted(proposalId: number): boolean {
-        addressCallback(address => {
-            contract.votes(address, proposalId).then(b => {
-                console.log(b)
-            })
-        })
-        return false
+        contract.vote(proposalId).then(console.log, console.error)
     }
 
     const setOutletContext: React.Dispatch<React.SetStateAction<LayoutState>> = useOutletContext()
@@ -153,7 +144,7 @@ const DAOApp: FC = () => {
                 proposals.map((proposal, i) => {
                     function defineBtnValue() {
                         if (proposal.end <= Date.now()) return "Voting is over"
-                        else if (isAlreadyVoted(proposal.id)) return "Already voted"
+                        else if (proposal.alreadyVoted) return "Already voted"
                         else return "Vote"
                     }
 
@@ -161,14 +152,14 @@ const DAOApp: FC = () => {
                         <CardContent sx={{textAlign: "left"}}>
                             <Typography>Id: {proposal.id}</Typography>
                             <Typography>Name: {proposal.name}</Typography>
-                            <Typography>Amount: {proposal.amount.toString()}</Typography>
+                            <Typography>Amount: {ethers.utils.formatEther(proposal.amount)} ETH</Typography>
                             <Typography>Recipient: {proposal.recipient}</Typography>
-                            <Typography>Votes: {proposal.votes}</Typography>
+                            <Typography>Votes: {proposal.votes * 100} %</Typography>
                             <Typography>End: {formatToSimpleDateTime(proposal.end)}</Typography>
                         </CardContent>
                         <CardActions>
                             <Button onClick={_ => vote(proposal.id)}
-                                    disabled={isAlreadyVoted(proposal.id) || Date.now() >= proposal.end}>{defineBtnValue()}</Button>
+                                    disabled={proposal.alreadyVoted || Date.now() >= proposal.end}>{defineBtnValue()}</Button>
                         </CardActions>
                     </Card>
                 })
@@ -180,7 +171,6 @@ const DAOApp: FC = () => {
             <Fab color="primary" aria-label="Create proposal" onClick={_ => setCreateProposalModalOpen(true)}
                  sx={defaultFabStyle}><Add/></Fab>
         }
-
 
         <Modal open={createProposalModalOpen} onClose={_ => setCreateProposalModalOpen(false)}>
             <Box sx={defaultModalStyle}>
@@ -212,7 +202,7 @@ const DAOApp: FC = () => {
                                     rules={{
                                         required: true,
                                         minLength: 1
-                                    }} // todo custom address rule, or even better custom address input
+                                    }}
                                     render={({field}) => <TextField id="outlined-basic"
                                                                     label="Recipient address"
                                                                     onChange={field.onChange}

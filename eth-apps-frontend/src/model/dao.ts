@@ -8,4 +8,5 @@ export interface Proposal {
     votes: number
     end: number
     executed: boolean
+    alreadyVoted: boolean
 }
